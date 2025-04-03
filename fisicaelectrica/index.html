@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Resistencias</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 20px;
+        }
+        .container {
+            max-width: 400px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            background-color: #f9f9f9;
+            box-shadow: 5px 5px 10px gray;
+        }
+        select, input {
+            margin: 5px;
+            padding: 8px;
+            width: 80%;
+        }
+        .resultado {
+            margin-top: 15px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container principal">
+        <h2>Calculadora de Resistencias</h2>
+        <div class="container">
+            
+            <h3>Colores a Ohmios</h3>
+            <select id="banda1">
+                <option value="0">Black</option>
+                <option value="1">Brown</option>
+                <option value="2">Red</option>
+                <option value="3">Orange</option>
+                <option value="4">Yellow</option>
+                <option value="5">Green</option>
+                <option value="6">Blue</option>
+                <option value="7">Violet</option>
+                <option value="8">Grey</option>
+                <option value="9">white</option>
+            </select>
+            <select id="banda2">
+                <option value="0">Black</option>
+                <option value="1">Brown</option>
+                <option value="2">Red</option>
+                <option value="3">Orange</option>
+                <option value="4">Yellow</option>
+                <option value="5">Green</option>
+                <option value="6">Blue</option>
+                <option value="7">Violet</option>
+                <option value="8">Grey</option>
+                <option value="9">white</option>
+            </select>
+            <select id="multiplicador">
+                <option value="1">Black (x1Ω)</option>
+                <option value="10">Brown (x10Ω)</option>
+                <option value="100">Red (x100Ω)</option>
+                <option value="1000">Orange (x1kΩ)</option>
+                <option value="10000">Yellow (x10kΩ)</option>
+                <option value="100000">Green (x100kΩ)</option>
+                <option value="1000000">Blue (x1MΩ)</option>
+                <option value="10000000">Violet (x10MΩ)</option>
+            </select>
+            
+            <select id="tolerancia">
+                <option value="5">Golden (±5%)</option>
+                <option value="10">Silver (±10%)</option>
+            </select><br>
+            <button onclick="calcularOhmios()">Calcular</button>
+            <div class="resultado" id="resultadoOhmios"></div>
+        </div>
+
+        <br><hr><br>
+
+        <div class="container">
+            <h2>Ohmios a colores</h2>
+            <h6>digite el valor de los ohmios a generar a colores</h6>
+            <input type="number" placeholder="digite los ohmios" id="ohmios" min="1" max="1000000000">
+            <div class="resultado" id="colores"></div>
+            <button onclick="interpretarColores()">generar colores</button><br><hr>
+
+            <div id="resultado"></div><br>
+        </div>
+    </div>
+    
+    <script>
+        function calcularOhmios() {
+            let b1 = document.getElementById("banda1").value;
+            let b2 = document.getElementById("banda2").value;
+            let mul = document.getElementById("multiplicador").value;
+            let tolerancia = document.getElementById("tolerancia").value;
+            let valor = (parseInt(b1) * 10 + parseInt(b2)) * parseInt(mul);
+            document.getElementById("resultadoOhmios").innerText = `Valor: ${valor} Ω ±${tolerancia}%`;
+        }
+
+        function interpretarColores(){
+            let ohmios = document.getElementById("ohmios").value;
+
+            let colores = ["Black", "Brown", "Red", "Orange", "Yellow", "Green", "Blue", "Violet", "Grey", "White"];
+            let coloresHex = {
+                "Black": "#000000", "Brown": "#964B00", "Red": "#FF0000",
+                "Orange": "#FFA500", "Yellow": "#FFFF00", "Green": "#008000",
+                "Blue": "#0000FF", "Violet": "#8A2BE2", "Grey": "#808080", "White": "#FFFFFF"
+            };
+
+            let strValor = ohmios.toString();
+            let primerDigito = parseInt(strValor[0]);
+            let segundoDigito = parseInt(strValor[1]);
+            let multiplicador = Math.max(0, strValor.length - 2);
+
+
+            let banda1 = colores[primerDigito];
+            let banda2 = colores[segundoDigito];
+            let banda3 = colores[multiplicador];
+
+            document.getElementById("resultado").innerText = `Colores: ${banda1} - ${banda2} - ${banda3}`;
+        }
+    </script>
+
+
+</body>
+</html>
